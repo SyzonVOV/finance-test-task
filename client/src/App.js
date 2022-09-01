@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { io } from 'socket.io-client';
 import { pricesReceived } from './reducers/priceReducer';
 import './App.css';
-import PricesList from './components/PricesList/PricesList';
+import PricesSection from './components/PricesSection/PricesSection';
 
 let counter = 0;
 
@@ -19,16 +19,19 @@ function App() {
       socket.on('ticker', response => {
         dispatch(pricesReceived(response));
         counter++;
-        if (counter > 2) {
+        if (counter > 10) {
           socket.disconnect();
         }
       });
     });
+    return () => {
+      socket.disconnect();
+    };
   }, []);
 
   return (
     <div className="App">
-      <PricesList />
+      <PricesSection />
     </div>
   );
 }

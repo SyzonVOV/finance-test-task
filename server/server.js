@@ -23,11 +23,17 @@ function randomValue(min = 0, max = 1, precision = 0) {
 
 function utcDate() {
   const now = new Date();
-  return new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
+  return new Date(
+    now.getUTCFullYear(),
+    now.getUTCMonth(),
+    now.getUTCDate(),
+    now.getUTCHours(),
+    now.getUTCMinutes(),
+    now.getUTCSeconds(),
+  );
 }
 
 function getQuotes(socket) {
-
   const quotes = tickers.map(ticker => ({
     ticker,
     exchange: 'NASDAQ',
@@ -47,11 +53,11 @@ function trackTickers(socket) {
   getQuotes(socket);
 
   // every N seconds
-  const timer = setInterval(function() {
+  const timer = setInterval(function () {
     getQuotes(socket);
   }, FETCH_INTERVAL);
 
-  socket.on('disconnect', function() {
+  socket.on('disconnect', function () {
     clearInterval(timer);
   });
 }
@@ -62,15 +68,19 @@ const server = http.createServer(app);
 
 const socketServer = io(server, {
   cors: {
-    origin: "*",
-  }
+    origin: '*',
+  },
 });
 
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
 });
 
-socketServer.on('connection', (socket) => {
+app.get('/filters', function (req, res) {
+  res.send(JSON.stringify(tickers));
+});
+
+socketServer.on('connection', socket => {
   socket.on('start', () => {
     trackTickers(socket);
   });
