@@ -12,7 +12,7 @@ const PricesFilters = () => {
 
   useEffect(() => {
     dispatch(getFilters());
-  }, []);
+  }, [dispatch]);
 
   if (filtersError) {
     return <div>{filtersError}</div>;

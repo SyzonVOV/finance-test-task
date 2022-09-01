@@ -1,3 +1,4 @@
+import { createSelector } from '@reduxjs/toolkit';
 import { useSelector } from 'react-redux';
 
 const PriceItem = price => {
@@ -9,7 +10,22 @@ const PriceItem = price => {
 };
 
 const PricesList = () => {
-  const items = useSelector(state => state.prices.newPrices);
+  const getActiveFilters = state =>
+    state.filters.filters.reduce((prev, curr) => {
+      if (curr.isActive) {
+        return [...prev, curr.name];
+      }
+      return prev;
+    }, []);
+
+  const selectFilteredPrices = createSelector(
+    getActiveFilters,
+    state => state.prices.newPrices,
+    (filters, prices) => {
+      return prices.filter(price => filters.includes(price.ticker));
+    },
+  );
+  const items = useSelector(selectFilteredPrices);
 
   return (
     <ul>
