@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { io } from 'socket.io-client';
 import { pricesReceived } from './reducers/priceReducer';
-import './App.css';
+import Container from '@mui/material/Container';
 import PricesSection from './components/PricesSection/PricesSection';
 
 let counter = 0;
@@ -31,9 +31,13 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
+    <Container
+      maxWidth="md"
+      sx={{
+        marginTop: 14,
+      }}>
       <PricesSection />
-    </div>
+    </Container>
   );
 }
 

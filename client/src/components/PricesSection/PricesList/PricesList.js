@@ -1,13 +1,12 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { useSelector } from 'react-redux';
 
-const PriceItem = price => {
-  return (
-    <li>
-      <span>{price.ticker}</span> - <span>{price.price}</span>
-    </li>
-  );
-};
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableRow from '@mui/material/TableRow';
+import Paper from '@mui/material/Paper';
 
 const PricesList = () => {
   const getActiveFilters = state =>
@@ -17,7 +16,7 @@ const PricesList = () => {
       }
       return prev;
     }, []);
-
+  //todo: move selector next to a respective reducer
   const selectFilteredPrices = createSelector(
     getActiveFilters,
     state => state.prices.newPrices,
@@ -28,11 +27,25 @@ const PricesList = () => {
   const items = useSelector(selectFilteredPrices);
 
   return (
-    <ul>
-      {items.map(item => (
-        <PriceItem key={item.ticker} {...item} />
-      ))}
-    </ul>
+    <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+        <TableBody>
+          {items.map(item => (
+            <TableRow
+              key={item.ticker}
+              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+              <TableCell component="th" scope="row">
+                {item.ticker}
+              </TableCell>
+              <TableCell align="right">{item.price}</TableCell>
+              <TableCell align="right">{item.change}</TableCell>
+              <TableCell align="right">{`${item.change_percent} %`}</TableCell>
+              <TableCell align="right">{item.last_trade_time}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 };
 
