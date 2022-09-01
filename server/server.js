@@ -38,7 +38,7 @@ function getQuotes(socket) {
     ticker,
     exchange: 'NASDAQ',
     price: randomValue(100, 300, 2),
-    change: randomValue(0, 200, 2),
+    change: randomValue(-100, 100, 2),
     change_percent: randomValue(0, 1, 2),
     dividend: randomValue(0, 1, 2),
     yield: randomValue(0, 2, 2),

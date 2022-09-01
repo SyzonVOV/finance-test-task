@@ -8,6 +8,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
+import ArrowCircleDownIcon from '@mui/icons-material/ArrowCircleDown';
+import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
+
 const PricesList = () => {
   const getActiveFilters = state =>
     state.filters.filters.reduce((prev, curr) => {
@@ -39,6 +42,13 @@ const PricesList = () => {
               </TableCell>
               <TableCell align="right">{item.price}</TableCell>
               <TableCell align="right">{item.change}</TableCell>
+              <TableCell align="right">
+                {item.change > 0 ? (
+                  <ArrowCircleUpIcon color="success" />
+                ) : (
+                  <ArrowCircleDownIcon color="error" />
+                )}
+              </TableCell>
               <TableCell align="right">{`${item.change_percent} %`}</TableCell>
               <TableCell align="right">{item.last_trade_time}</TableCell>
             </TableRow>
