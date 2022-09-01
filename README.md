@@ -15,7 +15,9 @@ You can get some ideas how your application may look like on the [Google Finance
 
 As a bonus you can implement (please describe implemented bonus functionality in this file):
 - any additional visual effects to highlight positive or negative changes in the prices
+✅ Shows green/red arrow depending on a price-change data
 - the possibility to switch on/off tickers by user
+✅ Toggle checkboxes in order to receive the desired information
 - the possibility to specify interval time by user
 - the possibility to add/remove ticker from watching group
 - any additional functionality you consider useful
