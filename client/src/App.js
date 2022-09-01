@@ -1,23 +1,34 @@
-import logo from './logo.svg';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { io } from 'socket.io-client';
+import { pricesReceived } from './reducers/priceReducer';
 import './App.css';
+import PricesList from './components/PricesList/PricesList';
+
+let counter = 0;
 
 function App() {
+  const dispatch = useDispatch();
+  const socket = io('http://localhost:4000');
+
+  useEffect(() => {
+    socket.emit('start');
+
+    socket.on('connect', () => {
+      console.log(socket.id);
+      socket.on('ticker', response => {
+        dispatch(pricesReceived(response));
+        counter++;
+        if (counter > 2) {
+          socket.disconnect();
+        }
+      });
+    });
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <PricesList />
     </div>
   );
 }
